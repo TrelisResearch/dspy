@@ -55,12 +55,12 @@ BLOCK_ONLY_HIGH = [
 class Google(LM):
     """Wrapper around Google's API.
 
-    Currently supported models include `gemini-pro-1.0`.
+    Currently supported models include `gemini-pro-1.0`, `gemini-1.5-pro`, and `gemini-1.5-flash`.
     """
 
     def __init__(
         self,
-        model: str = "models/gemini-1.0-pro",
+        model: str = "models/gemini-1.5-pro",
         api_key: Optional[str] = None,
         safety_settings: Optional[Iterable] = BLOCK_ONLY_HIGH,
         **kwargs,
@@ -70,7 +70,7 @@ class Google(LM):
         ----------
         model : str
             Which pre-trained model from Google to use?
-            Choices are [`gemini-pro-1.0`]
+            Choices are [`gemini-pro-1.0`, `gemini-1.5-pro`, `gemini-1.5-flash`]
         api_key : str
             The API key for Google.
             It can be obtained from https://cloud.google.com/generative-ai-studio
@@ -96,6 +96,7 @@ class Google(LM):
         }
 
         self.config = genai.GenerationConfig(**kwargs)
+        self.model_name = model
         self.llm = genai.GenerativeModel(model_name=model,
                                          generation_config=self.config,
                                          safety_settings=safety_settings)
